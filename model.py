@@ -31,11 +31,23 @@ def generator(lines, batch_size=32):
             images = []
             angles = []
             for batch_sample in batch_samples:
-                name = './data/IMG/'+batch_sample[0].split('/')[-1]
-                center_image = cv2.imread(name)
+                correction=1
+                name_center = './data/IMG/'+batch_sample[0].split('/')[-1]
+                center_image = cv2.imread(name_center)
+                name_left = './data/IMG/'+batch_sample[1].split('/')[-1]
+                left_image = cv2.imread(name_left)
+                name_right = './data/IMG/'+batch_sample[2].split('/')[-1]
+                right_image = cv2.imread(name_right)
+                
                 center_angle = float(batch_sample[3])
+                left_angle = float(batch_sample[3])+correction
+                right_angle = float(batch_sample[3])-correction
                 images.append(center_image)
+                images.append(left_image)
+                images.append(right_image)
                 angles.append(center_angle)
+                angles.append(left_angle)
+                angles.append(right_angle)
 
             # trim image to only see section with road
             X_train = np.array(images)
@@ -76,5 +88,5 @@ model.add(Dense(1))
 
 model.compile(loss='mse', optimizer='adam')
 # #model.fit(X_train, y_train, validation_split=0.2, shuffle=True, nb_epoch=5)
-model.fit_generator(train_generator, samples_per_epoch= len(train_samples), validation_data=validation_generator, nb_val_samples=len(validation_samples), nb_epoch=10)
+model.fit_generator(train_generator, samples_per_epoch= len(train_samples)*3, validation_data=validation_generator, nb_val_samples=len(validation_samples)*3, nb_epoch=10)
 model.save("model.h5")
