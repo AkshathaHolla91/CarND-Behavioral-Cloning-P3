@@ -3,7 +3,7 @@ import cv2
 import numpy as np
 import os
 from keras.models import Sequential
-from keras.layers import Flatten, Dense, Lambda, Dropout, Activation
+from keras.layers import Flatten, Dense, Lambda, Dropout, Activation, Cropping2D
 from keras.layers.convolutional import Convolution2D
 from keras.layers.pooling import MaxPooling2D
 from sklearn.model_selection import train_test_split
@@ -62,6 +62,7 @@ ch, row, col = 3, 80, 320  # Trimmed image format
 #print(np.shape(X_train))
 #print(y_train)
 model=Sequential()
+model.add(Cropping2D(cropping=((50,20), (0,0)), input_shape=(160,320,3)))
 model.add(Lambda(lambda x: x/255.0 - 0.5, input_shape=(160,320,3)))
 model.add(Convolution2D(6, 5, 5, activation='relu'))
 model.add(MaxPooling2D())
