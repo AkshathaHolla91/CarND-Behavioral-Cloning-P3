@@ -10,17 +10,19 @@ from sklearn.model_selection import train_test_split
 import sklearn
  
 lines=[]
+# This portion of the code is used for reading the sample data provided by Udacity
 with open("./data/driving_log.csv") as csvfile:
     reader=csv.reader(csvfile)
     for line in reader:
         lines.append(line)
-#os.listdir(".")
-#print(len(lines))   
-lines=lines[1:]
-train_samples, validation_samples = train_test_split(lines, test_size=0.2)
-# images=[]
-# measurements=[]
 
+#First line (Headings) are omitted from the read data
+lines=lines[1:]
+
+#20% of the Sample data is used as the validation set and the rest is used as the training set 
+train_samples, validation_samples = train_test_split(lines, test_size=0.2)
+
+#Generator to load image samples in batches
 def generator(lines, batch_size=32):
     num_samples = len(lines)
     while 1: # Loop forever so the generator never terminates
@@ -32,19 +34,25 @@ def generator(lines, batch_size=32):
             angles = []
             for batch_sample in batch_samples:
                 correction=0.2
+                #Reading Center camera image data
                 name_center = './data/IMG/'+batch_sample[0].split('/')[-1]
                 center_image = cv2.imread(name_center)
+                #Conversion from BGR format to RGB
                 center_rgb=cv2.cvtColor(center_image, cv2.COLOR_BGR2RGB)
+                #Image augumentation has been done by flipping the image
                 center_image_flipped = np.fliplr(center_image)
                 center_flipped_rgb=cv2.cvtColor(center_image_flipped, cv2.COLOR_BGR2RGB)
+                #Image augumentation has been done by adding the left camera images to the data set
                 name_left = './data/IMG/'+batch_sample[1].split('/')[-1]
                 left_image = cv2.imread(name_left)
                 left_rgb=cv2.cvtColor(left_image, cv2.COLOR_BGR2RGB)
+                #Image augumentation has been done by adding the right camera images to the data set
                 name_right = './data/IMG/'+batch_sample[2].split('/')[-1]
                 right_image = cv2.imread(name_right)
                 right_rgb=cv2.cvtColor(right_image, cv2.COLOR_BGR2RGB)
                 
                 center_angle = float(batch_sample[3])
+                #Flipping the steering angle
                 center_angle_flipped = -center_angle
                 left_angle = float(batch_sample[3])+correction
                 right_angle = float(batch_sample[3])-correction
@@ -67,22 +75,9 @@ def generator(lines, batch_size=32):
 train_generator = generator(train_samples, batch_size=32)
 validation_generator = generator(validation_samples, batch_size=32)
 # print(next(train_generator)[0].shape)
-ch, row, col = 3, 80, 320  # Trimmed image format
-# for line in lines:
-#     source_path=line[0]
-#     filename=source_path.split('/')[-1]
-#     current_path='./data/IMG/'+filename
-#     image=cv2.imread(current_path)
-#     images.append(image)
-#     #print(line[3])
-#     measurement=float(line[3])
-#     measurements.append(measurement)
-          
-# X_train=np.array(images)
-# y_train=np.array(measurements)
-#print(np.shape(X_train))
-#print(y_train)
+
 model=Sequential()
+#Cropping the image so that 50 rows from the top , 20 rows from the bottom and 0 rows from both left and right are cropped
 model.add(Cropping2D(cropping=((50,20), (0,0)), input_shape=(160,320,3)))
 
 # Comma.ai model
@@ -101,6 +96,9 @@ model.add(Cropping2D(cropping=((50,20), (0,0)), input_shape=(160,320,3)))
 # model.add(ELU())
 # model.add(Dense(1))
 
+#NVIDIA model
+
+#Preprocessing data by normalizing 
 model.add(Lambda(lambda x: x/255.0 - 0.5))
 
 model.add(Convolution2D(24, 5, 5, subsample=(2, 2), activation='relu'))
@@ -126,8 +124,9 @@ model.add(Dense(1))
 # model.add(Dense(84))
 # model.add(Dense(1))
 
-
+#Compiling the model using  Adam optimizer with mean squared error loss
 model.compile(loss='mse', optimizer='adam')
+#model.summary()
 # #model.fit(X_train, y_train, validation_split=0.2, shuffle=True, nb_epoch=5)
 model.fit_generator(train_generator, samples_per_epoch= len(train_samples)*4, validation_data=validation_generator, nb_val_samples=len(validation_samples)*4, nb_epoch=15)
 model.save("model.h5")
