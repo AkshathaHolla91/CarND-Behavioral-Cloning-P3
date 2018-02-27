@@ -31,28 +31,30 @@ def generator(lines, batch_size=32):
             images = []
             angles = []
             for batch_sample in batch_samples:
-                correction=0.5
+#                 correction=0.2
                 name_center = './data/IMG/'+batch_sample[0].split('/')[-1]
                 center_image = cv2.imread(name_center)
+                center_rgb=cv2.cvtColor(center_image, cv2.COLOR_BGR2RGB)
                 center_image_flipped = np.fliplr(center_image)
-
-                name_left = './data/IMG/'+batch_sample[1].split('/')[-1]
-                left_image = cv2.imread(name_left)
-                name_right = './data/IMG/'+batch_sample[2].split('/')[-1]
-                right_image = cv2.imread(name_right)
+                center_flipped_rgb=cv2.cvtColor(center_image_flipped, cv2.COLOR_BGR2RGB)
+#                 name_left = './data/IMG/'+batch_sample[1].split('/')[-1]
+#                 left_image = cv2.imread(name_left)
+#                 name_right = './data/IMG/'+batch_sample[2].split('/')[-1]
+#                 right_image = cv2.imread(name_right)
                 
                 center_angle = float(batch_sample[3])
                 center_angle_flipped = -center_angle
-                left_angle = float(batch_sample[3])+correction
-                right_angle = float(batch_sample[3])-correction
-                images.append(center_image)
-                images.append(center_image_flipped)
-                images.append(left_image)
-                images.append(right_image)
+#                 left_angle = float(batch_sample[3])+correction
+#                 right_angle = float(batch_sample[3])-correction
+                
+                images.append(center_rgb)
+                images.append(center_flipped_rgb)
+#                 images.append(left_image)
+#                 images.append(right_image)
                 angles.append(center_angle)
                 angles.append(center_angle_flipped)
-                angles.append(left_angle)
-                angles.append(right_angle)
+#                 angles.append(left_angle)
+#                 angles.append(right_angle)
 
             # trim image to only see section with road
             X_train = np.array(images)
@@ -109,5 +111,5 @@ model.add(Dense(1))
 
 model.compile(loss='mse', optimizer='adam')
 # #model.fit(X_train, y_train, validation_split=0.2, shuffle=True, nb_epoch=5)
-model.fit_generator(train_generator, samples_per_epoch= len(train_samples)*4, validation_data=validation_generator, nb_val_samples=len(validation_samples)*4, nb_epoch=15)
+model.fit_generator(train_generator, samples_per_epoch= len(train_samples)*2, validation_data=validation_generator, nb_val_samples=len(validation_samples)*2, nb_epoch=15)
 model.save("model.h5")
