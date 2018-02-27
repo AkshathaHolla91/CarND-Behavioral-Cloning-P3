@@ -23,8 +23,7 @@ The goals / steps of this project are the following:
 [image3]: ./writeup_images/Left_image_example.jpg "Left"
 [image4]: ./writeup_images/Right_image_example.jpg "Right"
 [image5]: ./writeup_images/Center_image_example_flipped.jpg "CenterFlipped"
-[image6]: ./examples/placeholder_small.png "Normal Image"
-[image7]: ./examples/placeholder_small.png "Flipped Image"
+
 
 ## Rubric Points
 ### Here I will consider the [rubric points](https://review.udacity.com/#!/rubrics/432/view) individually and describe how I addressed each point in my implementation.  
@@ -35,10 +34,11 @@ The goals / steps of this project are the following:
 #### 1. Submission includes all required files and can be used to run the simulator in autonomous mode
 
 My project includes the following files:
-* model.py containing the script to create and train the model
-* drive.py for driving the car in autonomous mode
-* model.h5 containing a trained convolution neural network 
-* README.md  summarizing the results
+* [model.py](https://github.com/AkshathaHolla91/CarND-Behavioral-Cloning-P3/blob/master/model.py)  containing the script to create and train the model
+* [drive.py](https://github.com/AkshathaHolla91/CarND-Behavioral-Cloning-P3/blob/master/drive.py)  for driving the car in autonomous mode
+* [model.h5](https://github.com/AkshathaHolla91/CarND-Behavioral-Cloning-P3/blob/master/model.h5)  containing a trained convolution neural network 
+* [Writeup](https://github.com/AkshathaHolla91/CarND-Behavioral-Cloning-P3/blob/master/writeup_report.md)  summarizing the results
+* [Output Video](https://github.com/AkshathaHolla91/CarND-Behavioral-Cloning-P3/blob/master/Output_video.mp4) The output video of the simulation
 
 #### 2. Submission includes functional code
 Using the Udacity provided simulator and my drive.py file, the car can be driven autonomously around the track by executing 
