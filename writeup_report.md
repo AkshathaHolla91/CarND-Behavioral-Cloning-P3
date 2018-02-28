@@ -39,7 +39,7 @@ My project includes the following files:
 * [model.h5](https://github.com/AkshathaHolla91/CarND-Behavioral-Cloning-P3/blob/master/model.h5)  containing a trained convolution neural network 
 * [Writeup](https://github.com/AkshathaHolla91/CarND-Behavioral-Cloning-P3/blob/master/writeup_report.md)  summarizing the results
 * [Output Video](https://github.com/AkshathaHolla91/CarND-Behavioral-Cloning-P3/blob/master/Output_video.mp4) The output video of the simulation
-*[Output Video with dropouts]()
+*[Output Video with dropouts](https://github.com/AkshathaHolla91/CarND-Behavioral-Cloning-P3/blob/master/Output_dropouts.mp4)  The output video of the simulation with dropouts
 
 #### 2. Submission includes functional code
 Using the Udacity provided simulator and my drive.py file, the car can be driven autonomously around the track by executing 
