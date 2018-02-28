@@ -39,6 +39,7 @@ My project includes the following files:
 * [model.h5](https://github.com/AkshathaHolla91/CarND-Behavioral-Cloning-P3/blob/master/model.h5)  containing a trained convolution neural network 
 * [Writeup](https://github.com/AkshathaHolla91/CarND-Behavioral-Cloning-P3/blob/master/writeup_report.md)  summarizing the results
 * [Output Video](https://github.com/AkshathaHolla91/CarND-Behavioral-Cloning-P3/blob/master/Output_video.mp4) The output video of the simulation
+*[Output Video with dropouts]()
 
 #### 2. Submission includes functional code
 Using the Udacity provided simulator and my drive.py file, the car can be driven autonomously around the track by executing 
@@ -62,6 +63,9 @@ The model includes RELU layers to introduce nonlinearity , and the data is norma
 x= (x/255.0) - 0.5 to normalize the data in the range 0.5 to -0.5
 
 #### 2. Attempts to reduce overfitting in the model
+
+As suggested in the earlier review the various methods avaiable for reducing overfitting were adding dropouts , L2 regularization etc. Here I chose to include 2 dropout layers with dropout probabibilty of 0.4 after the first  fully connected layer and the other one with a dropout probability of 0.6 after the second fully connected layer to reduce the effects of slight overfitting observed in the model. This resulted in 
+smoother loss curves and also better performance of the car in the simulation with very less sudden deviations.
 
 The model was trained and validated on different data sets to ensure that the model was not overfitting. The model was tested by running it through the simulator and ensuring that the vehicle could stay on the track.
 
@@ -92,7 +96,7 @@ At the end of the process, the vehicle is able to drive autonomously around the 
 
 #### 2. Final Model Architecture
 
-The final model architecture consisted of the NVIDIA model with 5 layers of  convolution with 5x5 filter sizes for the first 2 layers and 3x3 for the next 3 layers and depths between 24 and 64.It is followed by a flattening layer and has 4 fully connected (Dense)layers and uses RELU activation for its layers.
+The final model architecture consisted of the NVIDIA model with 5 layers of  convolution with 5x5 filter sizes for the first 2 layers and 3x3 for the next 3 layers and depths between 24 and 64. It is followed by a flattening layer and has 4 fully connected (Dense)layers and uses RELU activation for its layers.There are also 2 Dropout layers after the first 2 fully connected layers with dropout probabilities of 0.4 and 0.6 each to reduce the effects of overfitting in the model.
 
 Here is a screenshot  visualizing  the architecture 
 
